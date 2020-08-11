@@ -107,8 +107,8 @@ STATIC_URL = '/static/'
 if PRODUCTION:
     STATIC_URL = '/static/back/'
     MEDIA_URL = '/media/'
-    STATIC_ROOT = '/var/www/static/navigo/'
-    MEDIA_ROOT = '/var/www/media/navigo/'
+    STATIC_ROOT = '/var/www/static/musicoterapia/'
+    MEDIA_ROOT = '/var/www/media/musicoterapia/'
 else:
     # Dev
     STATIC_URL = '/static/'
