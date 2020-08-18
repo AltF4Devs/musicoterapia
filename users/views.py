@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from .forms import UserForm
 
 
-login_page = 'base.html'
+login_page = 'login.html'
 logout_page = ''
 register_page = ''
 

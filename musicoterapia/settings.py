@@ -18,7 +18,7 @@ DEBUG = True if not PRODUCTION else False
 if PRODUCTION:
     ALLOWED_HOSTS = ['200.129.173.207', 'localhost']
 else:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
 DEFAULT_APPS = [
     'django.contrib.admin',
