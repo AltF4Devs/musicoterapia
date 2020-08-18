@@ -13,18 +13,21 @@ class UserForm(forms.ModelForm):
     }
     password1 = forms.CharField(
         label=_("Senha"), strip=False, widget=forms.PasswordInput(
-            attrs={'autocomplete': 'new-password'}),
-        help_text=password_validation.password_validators_help_text_html(),
+            attrs={'autocomplete': 'new-password', 'class': 'form-control form-control-lg'})
     )
     password2 = forms.CharField(
         label=_("Confirmar senha"), strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control form-control-lg'}),
         help_text=_("Entre com a mesma senha digitada anteriormentes."),
     )
 
     class Meta:
         model = User
-        fields = ('email', 'password1', 'password2')
+        fields = ('full_name', 'email', 'password1', 'password2')
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control form-control-lg'}),
+            'full_name': forms.TextInput(attrs={'class': 'form-control form-control-lg'})
+        }
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

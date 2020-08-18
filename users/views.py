@@ -9,7 +9,7 @@ from .forms import UserForm
 
 login_page = 'login.html'
 logout_page = ''
-register_page = ''
+register_page = 'register.html'
 
 
 User = get_user_model()

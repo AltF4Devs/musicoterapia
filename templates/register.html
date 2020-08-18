@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<title>Cadastro</title>
+{% block title %}Cadastro{% endblock title %}
 <style>
 
     /*Extra large devices (large desktops, 1200px and up)*/
@@ -26,7 +26,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-8">
-                <img src="{% static 'images/img1.svg' %}" class="img-fluid" />
+                <img src="{% static 'images/img1.svg' %}" class="img-fluid" alt="Music"/>
             </div>
             <div class="col-12 col-md-4" id="content-form">
                 <center>
@@ -34,18 +34,7 @@
                 <h2 style="font-size: 38px">Cadastro</h2>
 
                 <form>
-                    <div class="form-group">
-                      <input type="text" placeholder="Nome Completo" class="form-control form-control-lg" aria-describedby="emailHelp">
-                    </div>
-                    <div class="form-group">
-                      <input type="email" placeholder="Email" class="form-control form-control-lg">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Senha" class="form-control form-control-lg">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Confirmar Senha" class="form-control form-control-lg">
-                    </div>
+                    {% include 'form_register.html' with form=form %}
                     <button type="submit" class="btn btn-success btn-green btn-block">Cadastrar</button>
                   </form>
                 </center>
