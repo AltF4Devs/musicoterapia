@@ -1,7 +1,8 @@
+import unicodedata
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-
+from django.core.validators import FileExtensionValidator
 
 User = get_user_model()
 
@@ -16,7 +17,12 @@ class Playlist(models.Model):
 
 
 def path_music(instance, filename):
-    pass
+    titulo_format = ''.join(ch for ch in unicodedata.normalize('NFKD', filename)
+                            if not unicodedata.combining(ch))
+    return f'musics/{titulo_format}'
+
+
+validator_music = FileExtensionValidator(allowed_extensions=['mp3', 'wav'])
 
 
 class Music(models.Model):
@@ -25,7 +31,7 @@ class Music(models.Model):
     author = models.CharField(_('Autor'), max_length=255)
     compositor = models.CharField(_('Compositor'), max_length=255)
     performer = models.CharField(_('Tradutor'), max_length=255)
-    file = models.FileField(upload_to=path_music)
+    file = models.FileField(upload_to=path_music, validators=[validator_music])
     duration = models.TimeField(_('Duração'), default=0)
     order = models.IntegerField(_('Ordem de Reprodução'))
 

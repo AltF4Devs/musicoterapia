@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView as DjangoLogoutView
 
 
-login_page = ''
+login_page = 'base.html'
 logout_page = ''
 
 
