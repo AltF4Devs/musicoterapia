@@ -21,12 +21,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(_('Ativo'), default=True, help_text=_('Desative para tirar o acesso do usuário'))
     date_joined = models.DateTimeField(_('Criação da Conta'), default=timezone.now)
     week = models.IntegerField(_('Semana'), help_text=_('Semana que o usuário está'), default=0)
-    music_group = models.IntegerField(_('Grupo do Usuário'), blank=True)
+    music_group = models.IntegerField(_('Grupo do Usuário'), blank=True, null=True)
     next_form = models.DateField(default=date_next_form)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['full_name', 'week', 'music_group']
+    REQUIRED_FIELDS = ['full_name', 'week']
 
     class Meta:
         verbose_name = _('Usuário')
