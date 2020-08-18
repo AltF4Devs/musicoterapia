@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView as DjangoLogoutView
 
 
-login_page = ''
+login_page = 'login.html'
 logout_page = ''
 
 
