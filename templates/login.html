@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-8">
+            <img src="{% static 'images/img1.svg' %}" class="img-fluid" alt="Music"/>
+        </div>
+        <div class="col-md-12 col-lg-4" id="content-form">
+            <center>
+            <h1 style="font-size: 42px; font-weight: bold;">Musicoterapia</h1>
+            <h2 style="font-size: 38px">Login</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group" style="margin: 27px 0px;" >
+                    <input type="email" class="form-control form-control-lg" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-lg" placeholder="Senha">
+                </div>
+                <button type="submit" style="margin: 27px 0px;"  class="btn btn-success btn-green btn-block btn-lg">Logar</button>
+            </form>
+              <button type="submit" class="btn btn-success btn-green btn-block btn-lg">Cadastrar</button>
+            </center>
+        </div>
+    </div>
+</div>
+{% endblock body %}
