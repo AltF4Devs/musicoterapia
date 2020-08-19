@@ -22,7 +22,7 @@ class UserForm(forms.ModelForm):
             attrs={
                 'autocomplete': 'new-password',
                 'class': 'form-control form-control-lg',
-                'placeholder': 'Confirmar senha'
+                'placeholder': 'Confirmação de senha'
             }
         )
     )
@@ -33,7 +33,7 @@ class UserForm(forms.ModelForm):
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}),
             'full_name': forms.TextInput(
-                attrs={'class': 'form-control form-control-lg', 'placeholder': 'Nome Completo'}
+                attrs={'class': 'form-control form-control-lg', 'placeholder': 'Nome completo'}
             )
         }
 

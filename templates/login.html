@@ -5,26 +5,26 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
+        <div class="row d-flex flex-row justify-content-center align-items-center" style="height: 80vh;">
             <div class="col-md-12 col-lg-8">
                 <img src="{% static 'images/img1.svg' %}" class="img-fluid" alt="Music"/>
             </div>
             <div class="col-md-12 col-lg-4" id="content-form">
-                <center>
-                    <h2 style="font-size: 38px">Login</h2>
+                <h2 style="font-size: 38px; text-align: center;">Login</h2>
+                {% if messages %}
                     <div class="row align-items-center py-4">
                         <div class="col">
-                            {% if messages %}{% include 'messages.html' %}{% endif %}
+                            {% include 'messages.html' %}
                         </div>
                     </div>
-                    <form method="post">
-                        {% csrf_token %}
-                        {% include 'form_login.html' with form=form %}
-                        <button type="submit" style="margin: 27px 0;"
-                                class="btn btn-success btn-green btn-block btn-lg">Logar
-                        </button>
-                    </form>
-                </center>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    {% include 'form_login.html' with form=form %}
+                    <button type="submit" style="margin: 27px 0;"
+                            class="btn btn-success btn-green btn-block btn-lg">Logar
+                    </button>
+                </form>
             </div>
         </div>
     </div>

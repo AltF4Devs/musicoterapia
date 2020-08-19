@@ -24,20 +24,18 @@
 {% block body %}
 
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-8">
+        <div class="row d-flex flex-row justify-content-center align-items-center" style="height: 80vh;">
+            <div class="col-md-12 col-lg-8">
                 <img src="{% static 'images/img1.svg' %}" class="img-fluid" alt="Music"/>
             </div>
-            <div class="col-12 col-md-4" id="content-form">
-                <center>
-                <h2 style="font-size: 38px">Cadastro</h2>
+            <div class="col-md-12 col-lg-4" id="content-form">
+                <h2 class="mb-4" style="font-size: 38px; text-align: center">Cadastro</h2>
 
                 <form method="post">
                     {% csrf_token %}
                     {% include 'form_register.html' with form=form %}
                     <button type="submit" class="btn btn-success btn-green btn-block btn-lg">Cadastrar</button>
                   </form>
-                </center>
             </div>
         </div>
     </div>
