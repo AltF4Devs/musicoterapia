@@ -50,7 +50,7 @@ class Checklist(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='checklists')
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-date']
         verbose_name = _('Checklist')
         verbose_name_plural = _('Checklists')
 
