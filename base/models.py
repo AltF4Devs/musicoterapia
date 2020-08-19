@@ -26,7 +26,7 @@ validator_music = FileExtensionValidator(allowed_extensions=['mp3', 'wav'])
 
 
 class Music(models.Model):
-    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name='musics')
     name = models.CharField(_('Nome'), max_length=255)
     author = models.CharField(_('Autor'), max_length=255)
     compositor = models.CharField(_('Compositor'), max_length=255)
@@ -43,11 +43,11 @@ class Music(models.Model):
 
 class Checklist(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     listened_musics = models.ManyToManyField(Music)
     completed = models.BooleanField(default=False)
-    time_elapsed = models.TimeField()
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    time_elapsed = models.IntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='checklists')
 
     class Meta:
         ordering = ['-id']
