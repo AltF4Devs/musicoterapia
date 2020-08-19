@@ -4,7 +4,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView as DjangoLogoutView
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
-from .forms import UserForm
+from .forms import UserForm, AuthenticationForm
 
 
 login_page = 'login.html'
@@ -17,6 +17,10 @@ User = get_user_model()
 
 class LoginView(DjangoLoginView):
     template_name = login_page
+    form_class = AuthenticationForm
+    redirect_authenticated_user = True
+
+
 
 
 class LogoutView(DjangoLogoutView):

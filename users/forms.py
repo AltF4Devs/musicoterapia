@@ -1,8 +1,9 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UsernameField
-from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth.forms import UsernameField
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.forms import AuthenticationForm as DjangoAuthenticationForm
+from django.contrib.auth import authenticate
 
 User = get_user_model()
 
@@ -13,20 +14,27 @@ class UserForm(forms.ModelForm):
     }
     password1 = forms.CharField(
         label=_("Senha"), strip=False, widget=forms.PasswordInput(
-            attrs={'autocomplete': 'new-password', 'class': 'form-control form-control-lg'})
+            attrs={'autocomplete': 'new-password', 'class': 'form-control form-control-lg','placeholder': 'Senha'})
     )
     password2 = forms.CharField(
         label=_("Confirmar senha"), strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control form-control-lg'}),
-        help_text=_("Entre com a mesma senha digitada anteriormentes."),
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Confirmar senha'
+            }
+        )
     )
 
     class Meta:
         model = User
         fields = ('full_name', 'email', 'password1', 'password2')
         widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control form-control-lg'}),
-            'full_name': forms.TextInput(attrs={'class': 'form-control form-control-lg'})
+            'email': forms.EmailInput(attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}),
+            'full_name': forms.TextInput(
+                attrs={'class': 'form-control form-control-lg', 'placeholder': 'Nome Completo'}
+            )
         }
 
     def clean_password2(self):
@@ -44,3 +52,51 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class AuthenticationForm(forms.Form):
+    username = UsernameField(
+        widget=forms.TextInput(
+            attrs={'autofocus': True, 'class': 'form-control form-control-lg', 'placeholder': 'Email'}
+        )
+    )
+    password = forms.CharField(
+        label=_("Password"), strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'current-password',
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Senha'
+            }
+        )
+    )
+
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        self.user_cache = None
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username is not None and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    _('Usuário ou senha inválido')
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
+
+    def confirm_login_allowed(self, user):
+        if not user.is_active:
+            raise forms.ValidationError(
+                self.error_messages['inactive'],
+                code='inactive',
+            )
+
+    def get_user(self):
+        return self.user_cache
