@@ -1,8 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.urls import path
 
-from base import urls
 from users.views import LoginView, LogoutView, RegisterView
 
 urlpatterns = [
