@@ -1,10 +1,9 @@
-{% if form.errors %}
-    <div class="alert alert-danger alert-dismissible fade show">
-        <strong>{% for error in form.errors %}
-            {% if forloop.first %}
-            {% else %}, {% endif %}
-            {{ error.0|striptags }}
-        {% endfor %}
+{% if form.non_field_errors %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>
+            {% for error in form.non_field_errors %}
+                {{error}}
+            {% endfor %}
         </strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
