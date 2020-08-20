@@ -23,6 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     week = models.IntegerField(_('Semana'), help_text=_('Semana que o usuário está'), default=0)
     music_group = models.IntegerField(_('Grupo do Usuário'), blank=True, null=True)
     next_form = models.DateField(default=date_next_form)
+    is_first_access = models.BooleanField(_('Primeiro Acesso'), default=True, help_text=_('Flag para novo usuário'))
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

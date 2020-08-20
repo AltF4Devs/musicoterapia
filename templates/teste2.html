@@ -1,0 +1,26 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Teste 2</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        <h1>
+            Nesta fase você não vai precisar ouvir música. Volte dia {{ user.next_form }}
+            para responder o próximo questionário e 
+            {% if user.week == 1 %}
+                iniciar a próxima fase.
+            {% else %}
+                finalizar a pesquisa.
+            {% endif %}
+        </h1>
+
+    </body>
+</html>
