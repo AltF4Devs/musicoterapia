@@ -21,8 +21,6 @@ class LoginView(DjangoLoginView):
     redirect_authenticated_user = True
 
 
-
-
 class LogoutView(DjangoLogoutView):
     template_name = logout_page
 

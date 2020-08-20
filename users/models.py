@@ -2,7 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from .managers import UserManager
 
 
@@ -36,4 +37,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return f'{self.email} {self.full_name[:30]}'
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            super().save(*args, **kwargs)
+            if self.id % 2 == 0:
+                self.music_group = 1
+            else:
+                self.music_group = 0
+        return super().save(*args, **kwargs)
 
