@@ -3,8 +3,6 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 from base.models import Checklist, Playlist, Form
 
@@ -12,10 +10,6 @@ from base.models import Checklist, Playlist, Form
 class IndexView(LoginRequiredMixin, View):
     template_music = 'teste.html'  # Template com as musicas
     template_wait = 'teste2.html'  # Template avisando que não terá músicas nesta fase
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
