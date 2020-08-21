@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
     path('formulario/', TemplateView.as_view(template_name='formulario.html'), name='formulario'),
+    path('dashboard/', TemplateView.as_view(template_name='index.html'), name='dashboard'),
     path('teste', include('base.urls'))
 ]
