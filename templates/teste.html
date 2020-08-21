@@ -14,9 +14,20 @@
     <body>
         <h1>{{ playlist.name }}</h1>
         <ul>
-            {% for music in musics%}
-                <li>{{ music.name }}</li>
-            {% endfor %}
+            {% if status == "incomplete" %}
+                Musicas ouvidas:<br>
+                {% for music in listened_musics%}
+                    <li>{{ music.name }}</li>
+                {% endfor %}
+                Musicas nao ouvidas:<br>
+                {% for music in musics%}
+                    <li>{{ music.name }}</li>
+                {% endfor %}
+            {% else %}
+                {% for music in musics%}
+                    <li>{{ music.name }}</li>
+                {% endfor %}
+            {% endif %}
         </ul>
         <p>Status: {{ status }} </p>
 
