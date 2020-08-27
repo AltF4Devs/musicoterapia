@@ -12,7 +12,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0px 5px;
+        padding: 20px 5px;
         flex-direction: column;
     }
 
@@ -45,85 +45,53 @@
 
 <div class="container">
     <p style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">Zequinha de Abreu, para <strong style="color: #00D167">melhor análise</strong> da pesquisa escute <strong style="color: #00D167">completamente</strong> a Playlist proposta por dia.</p>
-    <div class="row row-card">
-
-        <!-- Item -->
-        <div class="col-card">
-            <div class="row m-0">
-                <div class="col-1" style="display: flex; align-items: center;">
-                    <strong style="color: #000; margin-bottom: 0;">01</strong>
-                </div>
-                <div class="col-11 col-sm-7" style="display: flex; align-items: center;">
-                    <audio controls controlsList="nodownload">
-                        <source src="{% static 'audio/GummyBear.mp3' %}" type="audio/mp3" />
-                        Seu navegador não suporta HTML5
-                    </audio>
-                </div>
-                <div class="col-12 col-sm-4" style="display: flex; align-items: center; justify-content: center;">
-                    <a class="a-info" data-toggle="modal" data-target="#modal1">Mais informações</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Item -->
-        <div class="col-card">
-            <div class="row m-0">
-                <div class="col-1" style="display: flex; align-items: center;">
-                    <strong style="color: #000; margin-bottom: 0;">02</strong>
-                </div>
-                <div class="col-11 col-sm-7" style="display: flex; align-items: center;">
-                    <audio controls controlsList="nodownload">
-                        <source src="{% static 'audio/Fazendinha.mp3' %}" type="audio/mp3" />
-                        Seu navegador não suporta HTML5
-                    </audio>
-                </div>
-                <div class="col-12 col-sm-4" style="display: flex; align-items: center; justify-content: center;">
-                    <a class="a-info" data-toggle="modal" data-target="#modal2">Mais informações</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<!-- Modal 1 -->
-<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="color: #000; background-color: #00D167;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><strong>Eu sou o Gummy Bear</strong></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Autor:</strong> <label style="color: #FFF">Christian Schneider</label></p>
-                <p><strong>Compositor:</strong> <label style="color: #FFF">Christian Schneider</label></p>
-                <p><strong>Interprete:</strong> <label style="color: #FFF">Gummy Bear</label></p>
-                <p><strong>Duração:</strong> <label style="color: #FFF">02:43</label></p>
+    <div class="d-flex flex-column align-items-center">
+        <div class="col-sm-12 col-md-9 col-lg-7 mt-4">
+            <div class="row row-card">
+                {% for music in musics %}
+                    <!-- Item -->
+                    <div class="col-card">
+                        <div class="row m-0">
+                            <div class="col-1" style="display: flex; align-items: center;">
+                                <strong style="color: #000; margin-bottom: 0;">{{ music.get_order }}</strong>
+                            </div>
+                            <div class="col-11 col-sm-7" style="display: flex; align-items: center;">
+                                <audio controls controlsList="nodownload">
+                                    <source src="{{ music.file.url }}" type="audio/mp3" />
+                                    Seu navegador não suporta HTML5
+                                </audio>
+                            </div>
+                            <div class="col-12 col-sm-4" style="display: flex; align-items: center; justify-content: center;">
+                                <a class="a-info" data-toggle="modal" data-target="#modal1">Mais informações</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal 2 -->
-<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="color: #000; background-color: #00D167;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><strong>Fazendinha</strong></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Autor:</strong> <label style="color: #FFF">Mundo Bita</label></p>
-                <p><strong>Compositor:</strong> <label style="color: #FFF">Mundo Bita</label></p>
-                <p><strong>Interprete:</strong> <label style="color: #FFF">Bezerro, Vakinha, Cavalinho, etc</label></p>
-                <p><strong>Duração:</strong> <label style="color: #FFF">02:14</label></p>
+{% for music in musics %}
+    <!-- Modal  -->
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="color: #000; background-color: #00D167;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><strong>{{ music.name }}</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Autor:</strong> <label style="color: #FFF">{{ music.author }}</label></p>
+                    <p><strong>Compositor:</strong> <label style="color: #FFF">{{ music.compositor }}</label></p>
+                    <p><strong>Interprete:</strong> <label style="color: #FFF">{{ music.performer }}</label></p>
+                    <p><strong>Duração:</strong> <label style="color: #FFF">{{ music.get_formatted_duration }}</label></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+{% endfor %}
 
 {% endblock body %}

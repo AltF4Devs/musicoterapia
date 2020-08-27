@@ -15,6 +15,8 @@ class Playlist(models.Model):
         verbose_name = _('Playlist')
         verbose_name_plural = _('Playlists')
 
+    def __str__(self):
+        return f"{self.name}"
 
 def path_music(instance, filename):
     titulo_format = ''.join(ch for ch in unicodedata.normalize('NFKD', filename)
@@ -30,15 +32,24 @@ class Music(models.Model):
     name = models.CharField(_('Nome'), max_length=255)
     author = models.CharField(_('Autor'), max_length=255)
     compositor = models.CharField(_('Compositor'), max_length=255)
-    performer = models.CharField(_('Tradutor'), max_length=255)
+    performer = models.CharField(_('Intérprete'), max_length=255)
     file = models.FileField(upload_to=path_music, validators=[validator_music])
-    duration = models.TimeField(_('Duração'), default=0)
+    duration = models.IntegerField(_('Duração'), default=0)
     order = models.IntegerField(_('Ordem de Reprodução'))
 
     class Meta:
         ordering = ['order']
         verbose_name = _('Música')
         verbose_name_plural = _('Músicas')
+
+    def __str__(self):
+        return f"{self.author} - {self.name}"
+
+    def get_order(self):
+        return "%02d" % (self.order)
+
+    def get_formatted_duration(self):
+        return "%02d:%02d" % (self.duration/60, self.duration%60)
 
 
 class Checklist(models.Model):
@@ -49,6 +60,9 @@ class Checklist(models.Model):
     time_elapsed = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='checklists')
 
+    def __str__(self):
+        return f"Checklist de {self.user.full_name} da {self.playlist.name}"
+
     class Meta:
         ordering = ['-date']
         verbose_name = _('Checklist')
@@ -58,6 +72,9 @@ class Checklist(models.Model):
 class Form(models.Model):
     description = models.TextField(_('Descrição'), max_length=500)
     url = models.URLField()
+
+    def __str__(self):
+        return f"Form {self.description}"
 
     class Meta:
         ordering = ['-id']

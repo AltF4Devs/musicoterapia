@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Início{% endblock title %}
+
+{% block head %}
+<style>
+    .row-card
+    {
+        background-color: #00D167;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 5px;
+        flex-direction: column;
+    }
+
+    .col-card
+    {
+        background-color: #d7dadb;
+        border-radius: 8px;
+        margin: 5px 0px;
+        width: fit-content;
+    }
+
+    .a-info
+    {
+        color: #00D167;
+    }
+    .a-info:hover
+    {
+        cursor: pointer;
+        color: #00D167;
+        filter: brightness(0.9);
+    }
+    
+</style>
+{% endblock head %}
+
+{% block body %}
+<h1 style="font-weight: bold; text-align: center; font-size: 2.3rem;">
+    De Alceu Valença a Zequinha de Abreu
+</h1>
+
+<div class="container">
+    <p style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">Zequinha de Abreu, para <strong style="color: #00D167">melhor análise</strong> da pesquisa escute <strong style="color: #00D167">completamente</strong> a Playlist proposta por dia.</p>
+    <div class="d-flex flex-column align-items-center">
+        <div class="col-sm-12 col-md-9 col-lg-6 mt-4">
+            <div class="row row-card">
+                <!-- Item -->
+                <div class="col-card d-flex flex-column align-items-center" style="background: none">
+                    <div class="row m-4 mt-5">
+                        <img src="{% static 'images/vector.svg' %}" />
+                    </div>
+                    <div class="row m-4 mb-5">
+                        <p class="h4 text-center font-weight-normal">
+                            Sem música nesta etapa da pesquisa.<br/>
+                            Por favor, acesse novamente em <span class="font-weight-bolder" style="color: #1B384A">30/02/20</span> para responder as questões. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

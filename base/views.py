@@ -8,8 +8,8 @@ from base.models import Checklist, Playlist, Form
 
 
 class IndexView(LoginRequiredMixin, View):
-    template_music = 'teste.html'  # Template com as musicas
-    template_wait = 'teste2.html'  # Template avisando que não terá músicas nesta fase
+    template_music = 'index.html'  # Template com as musicas
+    template_wait = 'wait.html'  # Template avisando que não terá músicas nesta fase
 
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
@@ -24,6 +24,7 @@ class IndexView(LoginRequiredMixin, View):
                     playlist = Playlist.objects.get(id=1)
                     Checklist.objects.create(playlist=playlist, user=user)
                     musics = playlist.musics.all()
+
                     user.is_first_access = False
                     user.save()
                     return render(
@@ -49,6 +50,7 @@ class IndexView(LoginRequiredMixin, View):
                     playlist = Playlist.objects.get(id=prox_playlist)
                     Checklist.objects.create(playlist=playlist, user=user)
                     musics = playlist.musics.all()
+
                     return render(
                         request, self.template_music, 
                         {'playlist': playlist, 'musics': musics, 'status': 'new', 'form_allow': form_allow}
