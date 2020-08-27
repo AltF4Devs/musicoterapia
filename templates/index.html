@@ -56,7 +56,7 @@
                                 <strong style="color: #000; margin-bottom: 0;">{{ music.get_order }}</strong>
                             </div>
                             <div class="col-11 col-sm-7" style="display: flex; align-items: center;">
-                                <audio controls controlsList="nodownload">
+                                <audio controls controlsList="nodownload" onended="musicEndedEvent('{{ music.id }}')">
                                     <source src="{{ music.file.url }}" type="audio/mp3" />
                                     Seu navegador não suporta HTML5
                                 </audio>
@@ -95,3 +95,10 @@
 {% endfor %}
 
 {% endblock body %}
+
+{% block body_script %}
+    <script>
+        const csrf = '{{ csrf_token }}', musicUpdateUrl = "{% url 'home' %}"
+    </script>
+    <script src="{% static 'js/music.js' %}"></script>
+{% endblock %}
