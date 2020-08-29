@@ -26,6 +26,9 @@ class IndexView(LoginRequiredMixin, View):
         )
         form_allow = datetime.now().day >= user.next_form.day
 
+        if form_allow:
+            return redirect('form')
+
         if phase_music:
             # Checa se é a primeira vez que o usuário acessa a fase de músicas
             if user.is_first_access:
@@ -39,12 +42,7 @@ class IndexView(LoginRequiredMixin, View):
                     return render(
                         request,
                         self.template_music,
-                        {
-                            "playlist": playlist,
-                            "musics": musics,
-                            "status": "new",
-                            "form_allow": form_allow,
-                        },
+                        {"playlist": playlist, "musics": musics, "status": "new"},
                     )
                 except Playlist.DoesNotExist:
                     messages.error(request, "Nenhuma playlist encontrada")
@@ -62,7 +60,7 @@ class IndexView(LoginRequiredMixin, View):
                     return render(
                         request,
                         self.template_music,
-                        {"status": "completed", "form_allow": form_allow},
+                        {"status": "completed"},
                     )
 
                 # Cria uma nova checklist com a proxima playlist da fila
@@ -76,12 +74,7 @@ class IndexView(LoginRequiredMixin, View):
                     return render(
                         request,
                         self.template_music,
-                        {
-                            "playlist": playlist,
-                            "musics": musics,
-                            "status": "new",
-                            "form_allow": form_allow,
-                        },
+                        {"playlist": playlist, "musics": musics, "status": "new"},
                     )
                 except Playlist.DoesNotExist:
                     messages.error(request, "Próxima playlist não encontrada")
@@ -99,11 +92,10 @@ class IndexView(LoginRequiredMixin, View):
                     "listened_musics": listened_musics,
                     "musics": musics_not_listened,
                     "status": "incomplete",
-                    "form_allow": form_allow,
                 },
             )
         else:
-            return render(request, self.template_wait, {"form_allow": form_allow})
+            return render(request, self.template_wait)
 
     def post(self, request, *args, **kwargs):
         user = request.user

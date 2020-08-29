@@ -78,7 +78,7 @@ class Checklist(models.Model):
 class Form(models.Model):
     description = models.TextField(_('Descrição'), max_length=500)
     url = models.URLField()
-    week = models.IntegerField(_('Semana do formulário'), max_length=10)
+    week = models.IntegerField(_('Semana do formulário'))
 
     def __str__(self):
         return f"Form {self.description}"

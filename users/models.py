@@ -9,7 +9,7 @@ from .managers import UserManager
 
 def date_next_form():
     now = timezone.now().date()
-    next_form = now + timezone.timedelta(days=7)
+    next_form = now + timezone.timedelta(days=8)
     return next_form
 
 
