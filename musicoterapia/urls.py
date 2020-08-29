@@ -4,7 +4,7 @@ from django.conf.urls.static import static, settings
 
 from users.views import LoginView, LogoutView, RegisterView
 from django.views.generic import TemplateView
-from base.views import IndexView
+from base.views import IndexView, FormView
 
 from .settings import MEDIA_ROOT, MEDIA_URL
 
@@ -13,10 +13,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
-    path(
-        'formulario/',
-        TemplateView.as_view(template_name='formulario.html'),
-        name='formulario',
-    ),
+    path('form/', FormView.as_view(), name='form'),
     path('dashboard/', IndexView.as_view(), name='dashboard'),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

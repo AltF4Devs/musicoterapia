@@ -1,9 +1,11 @@
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime
 import json
 
 from base.models import Checklist, Playlist, Form
@@ -132,6 +134,11 @@ class FormView(LoginRequiredMixin, View):
         # Checa se o usuário está na fase de músicas
         user = request.user
 
-        form = Form.objects.filter(week=user.)
-
-        return render(request, "formulario.html", {"form": form})
+        if datetime.now().date() >= user.next_form:
+            try:
+                form = Form.objects.get(week=user.week)
+                return render(request, "formulario.html", {"form": form})
+            except ObjectDoesNotExist:
+                return redirect("dashboard")
+        else:
+            return redirect("dashboard")
