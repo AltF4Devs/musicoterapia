@@ -18,9 +18,13 @@ class Playlist(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+
 def path_music(instance, filename):
-    titulo_format = ''.join(ch for ch in unicodedata.normalize('NFKD', filename)
-                            if not unicodedata.combining(ch))
+    titulo_format = ''.join(
+        ch
+        for ch in unicodedata.normalize('NFKD', filename)
+        if not unicodedata.combining(ch)
+    )
     return f'musics/{titulo_format}'
 
 
@@ -28,7 +32,9 @@ validator_music = FileExtensionValidator(allowed_extensions=['mp3', 'wav'])
 
 
 class Music(models.Model):
-    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, related_name='musics')
+    playlist = models.ForeignKey(
+        Playlist, on_delete=models.CASCADE, related_name='musics'
+    )
     name = models.CharField(_('Nome'), max_length=255)
     author = models.CharField(_('Autor'), max_length=255)
     compositor = models.CharField(_('Compositor'), max_length=255)
@@ -49,13 +55,13 @@ class Music(models.Model):
         return "%02d" % (self.order)
 
     def get_formatted_duration(self):
-        return "%02d:%02d" % (self.duration/60, self.duration%60)
+        return "%02d:%02d" % (int(self.duration) / 60, self.duration % 60)
 
 
 class Checklist(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
     date = models.DateField(auto_now_add=True)
-    listened_musics = models.ManyToManyField(Music)
+    listened_musics = models.ManyToManyField(Music, blank=True)
     completed = models.BooleanField(default=False)
     time_elapsed = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='checklists')

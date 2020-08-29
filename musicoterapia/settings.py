@@ -28,12 +28,8 @@ DEFAULT_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-THIRD_PARTY_APPS = [
-]
-LOCAL_APPS = [
-    'users',
-    'base'
-]
+THIRD_PARTY_APPS = []
+LOCAL_APPS = ['users', 'base']
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -67,10 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'musicoterapia.wsgi.application'
 
-DATABASES = {
-    'default': dj_database_url.parse(
-        env('DB_URL'), conn_max_age=600)
-}
+DATABASES = {'default': dj_database_url.parse(env('DB_URL'), conn_max_age=600)}
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -90,7 +83,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = 'teste'
+LOGIN_REDIRECT_URL = 'dashboard'
 
 LANGUAGE_CODE = 'pt-br'
 
@@ -104,9 +97,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Production
 if PRODUCTION:
@@ -127,4 +118,3 @@ EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-

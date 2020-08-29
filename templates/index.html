@@ -44,32 +44,56 @@
 </h1>
 
 <div class="container">
-    <p style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">Zequinha de Abreu, para <strong style="color: #00D167">melhor análise</strong> da pesquisa escute <strong style="color: #00D167">completamente</strong> a Playlist proposta por dia.</p>
-    <div class="d-flex flex-column align-items-center">
-        <div class="col-sm-12 col-md-9 col-lg-7 mt-4">
-            <div class="row row-card">
-                {% for music in musics %}
-                    <!-- Item -->
-                    <div class="col-card">
-                        <div class="row m-0">
-                            <div class="col-1" style="display: flex; align-items: center;">
-                                <strong style="color: #000; margin-bottom: 0;">{{ music.get_order }}</strong>
-                            </div>
-                            <div class="col-11 col-sm-7" style="display: flex; align-items: center;">
-                                <audio controls controlsList="nodownload" onended="musicEndedEvent('{{ music.id }}')">
-                                    <source src="{{ music.file.url }}" type="audio/mp3" />
-                                    Seu navegador não suporta HTML5
-                                </audio>
-                            </div>
-                            <div class="col-12 col-sm-4" style="display: flex; align-items: center; justify-content: center;">
-                                <a class="a-info" data-toggle="modal" data-target="#modal1">Mais informações</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+    <!-- Esse parágrafo ficará visível quando o usuário completar a playlist. -->
+    <div class="div-complete-playlist d-none">
+        <p style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
+            Parabéns {{ user.full_name }}, você <strong style="color: #00D167">completou</strong>
+            a <strong style="color: #00D167">playlist.</strong>
+            Aperte no botão abaixo para continuar
+        </p>
+        <button class="btn-complete-playlist btn btn-green text-align" onclick="document.location.reload(true)">
+            Continuar
+        </button>
+    </div>
+
+    {% if status == 'new' %}
+        <p class="header" style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
+            {{ user.full_name }}, para <strong style="color: #00D167">melhor análise</strong>
+            da pesquisa escute <strong style="color: #00D167">completamente</strong> 
+            a Playlist proposta por dia.
+        </p>
+    {% elif status == 'incomplete'%}
+        <p class="header" style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
+            {{ user.full_name }}, você <strong style="color: #00D167">não completou</strong>
+            a sua última <strong style="color: #00D167">playlist.</strong> 
+            Por favor, complete-a o quanto antes para poder prosseguir com a pesquisa.
+        </p>
+    {% elif status == 'completed'%}
+        <p class="header" style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
+            Parabéns {{ user.full_name }}, você <strong style="color: #00D167">completou</strong>
+            a sua <strong style="color: #00D167">playlist </strong>de hoje.
+            Volte amanhã para poder ouvir a sua próxima playlist e continuar com a pesquisa.
+        </p>
+    {% endif %}
+
+    {% if status != 'completed'%}
+        <div class="d-flex flex-column align-items-center">
+            <div class="col-sm-12 col-md-9 col-lg-7 mt-4">
+                <div class="row row-card">
+                    {% for music in listened_musics %}
+                        {% include "card_music.html" with blocked="card-music-block" %}
+                    {% endfor %}
+                    {% for music in musics %}
+                        {% if forloop.counter == 1 %}
+                            {% include "card_music.html" %}
+                        {% else %}
+                            {% include "card_music.html" with blocked="card-music-block" %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
+    {% endif%}
 </div>
 
 {% for music in musics %}
@@ -98,7 +122,7 @@
 
 {% block body_script %}
     <script>
-        const csrf = '{{ csrf_token }}', musicUpdateUrl = "{% url 'home' %}"
+        const csrf = '{{ csrf_token }}', musicUpdateUrl = "{% url 'dashboard' %}"
     </script>
     <script src="{% static 'js/music.js' %}"></script>
 {% endblock %}

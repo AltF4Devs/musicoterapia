@@ -1,0 +1,21 @@
+<!-- Item -->
+{{ listened }}
+<div class="col-card {{ blocked }}"  id="card-music-{{music.order}}">
+    <div class="row m-0">
+        <div class="col-1" style="display: flex; align-items: center;">
+            <strong style="color: #000; margin-bottom: 0;">{{ music.get_order }}</strong>
+        </div>
+        <div class="col-11 col-sm-7" style="display: flex; align-items: center;">
+            <audio 
+                controls controlsList="nodownload" 
+                onended="musicEndedEvent({{ music.id }}, {{ music.order }})"
+            >
+                <source src="{{ music.file.url }}" type="audio/mp3" />
+                Seu navegador não suporta HTML5
+            </audio>
+        </div>
+        <div class="col-12 col-sm-4" style="display: flex; align-items: center; justify-content: center;">
+            <a class="a-info" data-toggle="modal" data-target="#modal1">Mais informações</a>
+        </div>
+    </div>
+</div>

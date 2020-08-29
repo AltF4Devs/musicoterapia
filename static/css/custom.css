@@ -13,3 +13,19 @@ body
 {
     background-color: #00D167;
 }
+
+.card-music-block
+{
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+.card-music-block > div
+{
+    pointer-events: none;
+}
+
+.div-complete-playlist
+{
+    text-align: center;
+}

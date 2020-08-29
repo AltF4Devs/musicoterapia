@@ -44,7 +44,6 @@
 </h1>
 
 <div class="container">
-    <p style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">Zequinha de Abreu, para <strong style="color: #00D167">melhor análise</strong> da pesquisa escute <strong style="color: #00D167">completamente</strong> a Playlist proposta por dia.</p>
     <div class="d-flex flex-column align-items-center">
         <div class="col-sm-12 col-md-9 col-lg-6 mt-4">
             <div class="row row-card">
@@ -56,7 +55,10 @@
                     <div class="row m-4 mb-5">
                         <p class="h4 text-center font-weight-normal">
                             Sem música nesta etapa da pesquisa.<br/>
-                            Por favor, acesse novamente em <span class="font-weight-bolder" style="color: #1B384A">30/02/20</span> para responder as questões. 
+                            Por favor, acesse novamente em 
+                            <span class="font-weight-bolder" style="color: #1B384A">
+                                {{ user.next_form }}
+                            </span> para responder as questões. 
                         </p>
                     </div>
                 </div>
