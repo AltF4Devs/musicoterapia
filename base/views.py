@@ -126,3 +126,12 @@ class IndexView(LoginRequiredMixin, View):
             checklist.save()
 
         return JsonResponse({'playlistCompleted': playlist_completed})
+
+class FormView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        # Checa se o usuário está na fase de músicas
+        user = request.user
+
+        form = Form.objects.filter(week=user.)
+
+        return render(request, "formulario.html", {"form": form})
