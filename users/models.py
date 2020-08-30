@@ -33,6 +33,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_first_access = models.BooleanField(
         _('Primeiro Acesso'), default=True, help_text=_('Flag para novo usuário')
     )
+    complete_treatment = models.BooleanField(_('Tratamento Completo'), default=False)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

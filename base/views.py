@@ -14,6 +14,7 @@ from base.models import Checklist, Playlist, Form
 class IndexView(LoginRequiredMixin, View):
     template_music = "index.html"  # Template com as musicas
     template_wait = "wait.html"  # Template avisando que não terá músicas nesta fase
+    template_treatment = "complete_treatment.html"
 
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
@@ -25,6 +26,9 @@ class IndexView(LoginRequiredMixin, View):
             and user.music_group == 2
         )
         form_allow = datetime.now().day >= user.next_form.day
+
+        if user.complete_treatment:
+            return render(request, template_treatment)
 
         if form_allow:
             return redirect('form')
@@ -121,6 +125,7 @@ class IndexView(LoginRequiredMixin, View):
 
         return JsonResponse({'playlistCompleted': playlist_completed})
 
+
 class FormView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
@@ -134,3 +139,29 @@ class FormView(LoginRequiredMixin, View):
                 return redirect("dashboard")
         else:
             return redirect("dashboard")
+
+
+class CompletedFormView(LoginRequiredMixin, View):
+    template_form = 'completed_form.html'
+    template_treatment = 'completed_treatment.html'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+
+        '''
+         Se for a última semana do usuário, o tratamento é completado, se não,
+         ele avança para a próxima fase e o novo formulário é setado para daqui
+         8 dias
+        '''
+        if user.week == 1:
+            now = timezone.now().date()
+            next_form = now + timezone.timedelta(days=8)
+            user.next_form = next_form
+            user.week = 2
+            user.save()
+            return render(request, self.template_form)
+
+        user.complete_treatment = True
+        user.save()
+
+        return render(request, self.template_treatment)
