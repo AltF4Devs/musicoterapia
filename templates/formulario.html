@@ -8,8 +8,14 @@
     </h1>
     <div class="container">
         <div class="row">
+            <p class="header" style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
+                {{ user.full_name }}, você concluiu a primeira fase e ja pode responder o formulário.
+                Por favor, clique no botão abaixo para respondê-lo.
+            </p>
             <div class="col-12" style="display: flex; justify-content: center;">
-                <iframe src="{{ form.url }}" width="640" height="530" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
+                <a class="btn btn-green" href="{{ form.url }}">
+                    Responder
+                </a>
             </div>
         </div>
     </div>
