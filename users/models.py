@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import datetime
 from .managers import UserManager
 
 
@@ -46,6 +47,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f'{self.email} {self.full_name[:30]}'
+
+    def form_allow(self):
+        return datetime.now().date() >= self.next_form
 
     def save(self, *args, **kwargs):
         if not self.id:

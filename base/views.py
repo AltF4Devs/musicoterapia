@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 from datetime import datetime
 import json
 
@@ -25,12 +26,11 @@ class IndexView(LoginRequiredMixin, View):
             or user.week == 2
             and user.music_group == 2
         )
-        form_allow = datetime.now().day >= user.next_form.day
 
         if user.complete_treatment:
             return render(request, template_treatment)
 
-        if form_allow:
+        if user.form_allow():
             return redirect('form')
 
         if phase_music:
@@ -60,7 +60,7 @@ class IndexView(LoginRequiredMixin, View):
             # Checa se a playlist atual ja foi completa
             if checklist.completed:
                 # Checa se a ultima playlist completa foi iniciada hoje
-                if checklist.date.day == datetime.now().day:
+                if checklist.date == datetime.now().date():
                     return render(
                         request,
                         self.template_music,
@@ -131,7 +131,7 @@ class FormView(LoginRequiredMixin, View):
         # Checa se o usuário está na fase de músicas
         user = request.user
 
-        if datetime.now().date() >= user.next_form:
+        if user.form_allow():
             try:
                 form = Form.objects.get(week=user.week)
                 return render(request, "formulario.html", {"form": form})
@@ -153,6 +153,9 @@ class CompletedFormView(LoginRequiredMixin, View):
          ele avança para a próxima fase e o novo formulário é setado para daqui
          8 dias
         '''
+        if not user.form_allow():
+            return redirect('dashboard')
+
         if user.week == 1:
             now = timezone.now().date()
             next_form = now + timezone.timedelta(days=8)

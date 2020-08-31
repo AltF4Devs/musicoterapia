@@ -12,28 +12,41 @@ class UserForm(forms.ModelForm):
         'password_mismatch': _('The two password fields didn’t match.'),
     }
     password1 = forms.CharField(
-        label=_("Senha"), strip=False, widget=forms.PasswordInput(
-            attrs={'autocomplete': 'new-password', 'class': 'form-control form-control-lg','placeholder': 'Senha'})
-    )
-    password2 = forms.CharField(
-        label=_("Confirmar senha"), strip=False,
+        label=_("Senha"),
+        strip=False,
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password',
                 'class': 'form-control form-control-lg',
-                'placeholder': 'Confirmação de senha'
+                'placeholder': 'Senha',
             }
-        )
+        ),
+    )
+    password2 = forms.CharField(
+        label=_("Confirmar senha"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Confirmação de senha',
+            }
+        ),
     )
 
     class Meta:
         model = User
         fields = ('full_name', 'email', 'password1', 'password2')
         widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}),
+            'email': forms.EmailInput(
+                attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}
+            ),
             'full_name': forms.TextInput(
-                attrs={'class': 'form-control form-control-lg', 'placeholder': 'Nome completo'}
-            )
+                attrs={
+                    'class': 'form-control form-control-lg',
+                    'placeholder': 'Nome completo',
+                }
+            ),
         }
 
     def clean_password2(self):
@@ -41,7 +54,8 @@ class UserForm(forms.ModelForm):
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError(
-                self.error_messages['password_mismatch'], code='password_mismatch',
+                self.error_messages['password_mismatch'],
+                code='password_mismatch',
             )
         return password2
 
@@ -56,18 +70,23 @@ class UserForm(forms.ModelForm):
 class AuthenticationForm(forms.Form):
     username = UsernameField(
         widget=forms.TextInput(
-            attrs={'autofocus': True, 'class': 'form-control form-control-lg', 'placeholder': 'Email'}
+            attrs={
+                'autofocus': True,
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Email',
+            }
         )
     )
     password = forms.CharField(
-        label=_("Password"), strip=False,
+        label=_("Password"),
+        strip=False,
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'current-password',
                 'class': 'form-control form-control-lg',
-                'placeholder': 'Senha'
+                'placeholder': 'Senha',
             }
-        )
+        ),
     )
 
     def __init__(self, request=None, *args, **kwargs):
@@ -80,11 +99,11 @@ class AuthenticationForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         if username is not None and password:
-            self.user_cache = authenticate(self.request, username=username, password=password)
+            self.user_cache = authenticate(
+                self.request, username=username, password=password
+            )
             if self.user_cache is None:
-                raise forms.ValidationError(
-                    _('Usuário ou senha inválido')
-                )
+                raise forms.ValidationError(_('Usuário ou senha inválido'))
             else:
                 self.confirm_login_allowed(self.user_cache)
 
