@@ -64,6 +64,7 @@ class IndexView(LoginRequiredMixin, View):
                     )
                 except Playlist.DoesNotExist:
                     messages.error(request, "Próxima playlist não encontrada")
+                    return render(request, '404.html', {})
 
             # Retorna a playlist atual com as musicas que faltam ouvir
             playlist = checklist.playlist
