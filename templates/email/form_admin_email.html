@@ -1,0 +1,20 @@
+{% autoescape off %}
+<body>
+<p>
+O usuário <strong> {{ user.full_name }} </strong>, tem um formulário para responder hoje.
+</p>
+
+<p>
+Nome completo: <strong> {{ user.full_name }} </strong>
+</p>
+<p>
+Email: <strong> {{ user.email }} </strong>
+</p>
+<p>
+Grupo: <strong> {{ user.music_group }} </strong>
+</p>
+<p>
+Semana atual: <strong> {{ user.week }} </strong>
+</p>
+</body>
+{% endautoescape %}

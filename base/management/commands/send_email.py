@@ -10,18 +10,35 @@ from base.models import Form
 class Command(BaseCommand):
     help = 'Send email to users'
 
-    def send_email(self, user, form):
-        subject, from_email = 'Lembrete de formulário', 'musicomtr@gmail.com'
-        html_msg = render_to_string('form_email.html', {'user': user, 'form': form})
-        text_content = strip_tags(html_content)
+    def send_user_email(self, user, form):
+        subject, from_email = 'Lembrete de formulário', 'musicoterapiacovid@gmail.com'
 
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [user.email])
-        msg.attach_alternative(html_content, "text/html")
+        html_msg = render_to_string(
+            'email/form_email.html', {'user': user, 'form': form}
+        )
+        text_msg = render_to_string(
+            'email/form_email.txt', {'user': user, 'form': form}
+        )
+
+        msg = EmailMultiAlternatives(subject, html_msg, from_email, [user.email])
+        msg.content_subtype = "html"
+        msg.attach_alternative(text_msg, "text/plain")
         self.stdout.write(
             self.style.SUCCESS(
-                'Sending email to user "%s (%s)" ...' % (user.first_name, user.id)
+                'Sending email to user "%s (%s)" ...' % (user.full_name, user.id)
             )
         )
+        msg.send()
+
+    def send_admin_email(self, user):
+        subject, from_email = 'Formulário Usuário', 'musicoterapiacovid@gmail.com'
+
+        html_msg = render_to_string('email/form_admin_email.html', {'user': user})
+        text_msg = render_to_string('email/form_admin_email.txt', {'user': user})
+
+        msg = EmailMultiAlternatives(subject, html_msg, from_email, [from_email])
+        msg.content_subtype = "html"
+        msg.attach_alternative(text_msg, "text/plain")
         msg.send()
 
     def handle(self, *args, **kwargs):
@@ -30,7 +47,8 @@ class Command(BaseCommand):
         for user in users:
             try:
                 form = Form.objects.get(week=user.week)
-                self.send_email(user, form)
+                self.send_user_email(user, form)
+                self.send_admin_email(user)
             except Form.DoesNotExist:
                 self.stdout.write(
                     self.style.WARNING(
