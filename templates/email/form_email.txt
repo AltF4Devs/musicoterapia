@@ -1,4 +1,3 @@
-
 {{ user.full_name }}, o próximo formulário já está disponível para você responder. Clique no link abaixo para acessá-lo.
 
 {{form.url}}

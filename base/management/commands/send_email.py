@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
         msg = EmailMultiAlternatives(subject, html_msg, from_email, [user.email])
         msg.content_subtype = "html"
-        msg.attach_alternative(text_msg, "text/plain")
+        # msg.attach_alternative(text_msg, "text/plain")
         self.stdout.write(
             self.style.SUCCESS(
                 'Sending email to user "%s (%s)" ...' % (user.full_name, user.id)
@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
         msg = EmailMultiAlternatives(subject, html_msg, from_email, [from_email])
         msg.content_subtype = "html"
-        msg.attach_alternative(text_msg, "text/plain")
+        # msg.attach_alternative(text_msg, "text/plain")
         msg.send()
 
     def handle(self, *args, **kwargs):
