@@ -2,16 +2,12 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from datetime import datetime
 from .managers import UserManager
 
 
 def date_next_form():
-    now = timezone.now().date()
-    next_form = now + timezone.timedelta(days=8)
-    return next_form
+    return timezone.now().date() + timezone.timedelta(days=8)
 
 
 class User(AbstractBaseUser, PermissionsMixin):

@@ -7,7 +7,7 @@ from users.models import User
 from base.models import Form
 
 
-class Commnad(BaseCommand):
+class Command(BaseCommand):
     help = 'Send email to users'
 
     def send_email(self, user, form):

@@ -1,10 +1,8 @@
-from datetime import datetime
 from django.shortcuts import render, redirect
-from django.views import View
+from django.views import View, generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from datetime import datetime
 import json
@@ -20,15 +18,10 @@ class IndexView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
         user = request.user
-        phase_music = (
-            user.week == 1
-            and user.music_group == 1
-            or user.week == 2
-            and user.music_group == 2
-        )
+        phase_music = (user.week == 1 and user.music_group == 1 or user.week == 2 and user.music_group == 2)
 
         if user.complete_treatment:
-            return render(request, template_treatment)
+            return render(request, self.template_treatment)
 
         if user.form_allow():
             return redirect('form')
@@ -44,28 +37,19 @@ class IndexView(LoginRequiredMixin, View):
                     user.is_first_access = False
                     user.save()
                     return render(
-                        request,
-                        self.template_music,
-                        {"playlist": playlist, "musics": musics, "status": "new"},
+                        request, self.template_music, {"playlist": playlist, "musics": musics, "status": "new"}
                     )
                 except Playlist.DoesNotExist:
                     messages.error(request, "Nenhuma playlist encontrada")
+                    return render(request, '404.html', {})
 
-            checklist = (
-                Checklist.objects.prefetch_related("playlist", "playlist__musics")
-                .filter(user=user)
-                .first()
-            )
+            checklist = Checklist.objects.prefetch_related("playlist", "playlist__musics").filter(user=user).first()
 
             # Checa se a playlist atual ja foi completa
             if checklist.completed:
                 # Checa se a ultima playlist completa foi iniciada hoje
                 if checklist.date == datetime.now().date():
-                    return render(
-                        request,
-                        self.template_music,
-                        {"status": "completed"},
-                    )
+                    return render(request, self.template_music, {"status": "completed"})
 
                 # Cria uma nova checklist com a proxima playlist da fila
                 total_playlists = Playlist.objects.all().count()
@@ -76,9 +60,7 @@ class IndexView(LoginRequiredMixin, View):
                     musics = playlist.musics.all()
 
                     return render(
-                        request,
-                        self.template_music,
-                        {"playlist": playlist, "musics": musics, "status": "new"},
+                        request, self.template_music, {"playlist": playlist, "musics": musics, "status": "new"}
                     )
                 except Playlist.DoesNotExist:
                     messages.error(request, "Próxima playlist não encontrada")
@@ -89,14 +71,12 @@ class IndexView(LoginRequiredMixin, View):
             musics_not_listened = playlist.musics.exclude(id__in=listened_musics)
 
             return render(
-                request,
-                self.template_music,
-                {
+                request, self.template_music, {
                     "playlist": playlist,
                     "listened_musics": listened_musics,
                     "musics": musics_not_listened,
                     "status": "incomplete",
-                },
+                }
             )
         else:
             return render(request, self.template_wait)
@@ -126,7 +106,9 @@ class IndexView(LoginRequiredMixin, View):
         return JsonResponse({'playlistCompleted': playlist_completed})
 
 
-class FormView(LoginRequiredMixin, View):
+class FormView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "formulario.html"
+
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
         user = request.user
@@ -134,11 +116,10 @@ class FormView(LoginRequiredMixin, View):
         if user.form_allow():
             try:
                 form = Form.objects.get(week=user.week)
-                return render(request, "formulario.html", {"form": form})
-            except ObjectDoesNotExist:
-                return redirect("dashboard")
-        else:
-            return redirect("dashboard")
+                return render(request, self.template_name, {"form": form})
+            except Form.DoesNotExist:
+                messages.error(request, 'Form não encontrado')
+        return redirect("dashboard")
 
 
 class CompletedFormView(LoginRequiredMixin, View):
@@ -157,9 +138,7 @@ class CompletedFormView(LoginRequiredMixin, View):
             return redirect('dashboard')
 
         if user.week == 1:
-            now = timezone.now().date()
-            next_form = now + timezone.timedelta(days=8)
-            user.next_form = next_form
+            user.next_form = timezone.now().date() + timezone.timedelta(days=8)
             user.week = 2
             user.save()
             return render(request, self.template_form)
