@@ -1,0 +1,12 @@
+<style>
+    .btn-email{
+        background-color: #00D167;
+        text-decoration: none;
+    }
+</style>
+
+<p>
+    {{ user.first_name }}, o próximo formulário já está disponível para você
+    responder. Clique no botão abaixo para acessá-lo.
+</p>
+<a class='btn-email' href='{{form.link}}'>Formulário</a>
