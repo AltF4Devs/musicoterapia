@@ -1,0 +1,6 @@
+O usuário {{ user.full_name }}, tem um formulário para responder hoje.
+
+Nome completo: {{ user.full_name }}
+Email: {{ user.email }}
+Grupo: {{ user.music_group }}
+Semana atual: {{ user.week }}

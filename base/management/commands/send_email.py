@@ -12,10 +12,13 @@ class Command(BaseCommand):
 
     def send_user_email(self, user, form):
         subject, from_email = 'Lembrete de formulário', 'musicoterapiacovid@gmail.com'
+
         html_msg = render_to_string(
             'email/form_email.html', {'user': user, 'form': form}
         )
-        text_msg = strip_tags(html_msg)
+        text_msg = render_to_string(
+            'email/form_email.txt', {'user': user, 'form': form}
+        )
 
         msg = EmailMultiAlternatives(subject, html_msg, from_email, [user.email])
         msg.content_subtype = "html"
@@ -29,8 +32,9 @@ class Command(BaseCommand):
 
     def send_admin_email(self, user):
         subject, from_email = 'Formulário Usuário', 'musicoterapiacovid@gmail.com'
+
         html_msg = render_to_string('email/form_admin_email.html', {'user': user})
-        text_msg = strip_tags(html_msg)
+        text_msg = render_to_string('email/form_admin_email.txt', {'user': user})
 
         msg = EmailMultiAlternatives(subject, html_msg, from_email, [from_email])
         msg.content_subtype = "html"

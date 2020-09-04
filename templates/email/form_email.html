@@ -1,11 +1,11 @@
 {% autoescape off %}
 <body>
-    <p>
-        {{ user.full_name }}, o próximo formulário já está disponível para você responder. Clique no botão abaixo para acessá-lo.
-    </p>
-    <a class='btn-email' href='{{form.url}}' style="background-color: #00D167; 
-        text-decoration: none; padding: 5px 10px; color: black">
-        Formulário
-    </a>
+<p>
+<strong>{{ user.full_name }}</strong>, o próximo <strong>formulário</strong> já está disponível para você responder. Clique no botão abaixo para acessá-lo.
+</p>
+<a class='btn-email' href='{{form.url}}' style="background-color: #00D167; 
+        text-decoration: none; padding: 10px 12px; color: black; border-radius: 5px;">
+Formulário
+</a>
 </body>
 {% endautoescape %}
