@@ -18,7 +18,12 @@ class IndexView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
         user = request.user
-        phase_music = (user.week == 1 and user.music_group == 1 or user.week == 2 and user.music_group == 2)
+        phase_music = (
+            user.week == 1
+            and user.music_group == 1
+            or user.week == 2
+            and user.music_group == 2
+        )
 
         if user.complete_treatment:
             return render(request, self.template_treatment)
@@ -37,13 +42,19 @@ class IndexView(LoginRequiredMixin, View):
                     user.is_first_access = False
                     user.save()
                     return render(
-                        request, self.template_music, {"playlist": playlist, "musics": musics, "status": "new"}
+                        request,
+                        self.template_music,
+                        {"playlist": playlist, "musics": musics, "status": "new"},
                     )
                 except Playlist.DoesNotExist:
                     messages.error(request, "Nenhuma playlist encontrada")
                     return render(request, '404.html', {})
 
-            checklist = Checklist.objects.prefetch_related("playlist", "playlist__musics").filter(user=user).first()
+            checklist = (
+                Checklist.objects.prefetch_related("playlist", "playlist__musics")
+                .filter(user=user)
+                .first()
+            )
 
             # Checa se a playlist atual ja foi completa
             if checklist.completed:
@@ -60,7 +71,9 @@ class IndexView(LoginRequiredMixin, View):
                     musics = playlist.musics.all()
 
                     return render(
-                        request, self.template_music, {"playlist": playlist, "musics": musics, "status": "new"}
+                        request,
+                        self.template_music,
+                        {"playlist": playlist, "musics": musics, "status": "new"},
                     )
                 except Playlist.DoesNotExist:
                     messages.error(request, "Próxima playlist não encontrada")
@@ -72,12 +85,14 @@ class IndexView(LoginRequiredMixin, View):
             musics_not_listened = playlist.musics.exclude(id__in=listened_musics)
 
             return render(
-                request, self.template_music, {
+                request,
+                self.template_music,
+                {
                     "playlist": playlist,
                     "listened_musics": listened_musics,
                     "musics": musics_not_listened,
                     "status": "incomplete",
-                }
+                },
             )
         else:
             return render(request, self.template_wait)

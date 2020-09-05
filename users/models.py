@@ -25,10 +25,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     week = models.IntegerField(
         _('Semana'), help_text=_('Semana que o usuário está'), default=1
     )
-    music_group = models.IntegerField(_('Grupo do Usuário'), blank=True, null=True)
-    next_form = models.DateField(default=date_next_form)
+    music_group = models.IntegerField(
+        _('Grupo do Usuário'),
+        blank=True,
+        null=True,
+        help_text=_('O Grupo 1 ouve música na primeira semana e o Grupo 2 não ouve.'),
+    )
+    next_form = models.DateField(
+        _('Data do próximo formulário'), default=date_next_form
+    )
     is_first_access = models.BooleanField(
-        _('Primeiro Acesso'), default=True, help_text=_('Flag para novo usuário')
+        _('Primeiro Acesso do Usuário ?'),
+        default=True,
+        help_text=_(
+            'Esse status estará marcado caso o usuário ainda não tenha entrado na plataforma'
+        ),
     )
     complete_treatment = models.BooleanField(_('Tratamento Completo'), default=False)
 
@@ -53,5 +64,5 @@ class User(AbstractBaseUser, PermissionsMixin):
             if self.id % 2 == 0:
                 self.music_group = 1
             else:
-                self.music_group = 0
+                self.music_group = 2
         return super().save(*args, **kwargs)

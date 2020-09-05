@@ -18,6 +18,11 @@ class Playlist(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def display_music_count(self):
+        return self.musics.count()
+
+    display_music_count.short_description = _('Quantidade de músicas')
+
 
 def path_music(instance, filename):
     titulo_format = ''.join(
@@ -59,12 +64,38 @@ class Music(models.Model):
 
 
 class Checklist(models.Model):
-    playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
-    date = models.DateField(auto_now_add=True)
-    listened_musics = models.ManyToManyField(Music, blank=True)
-    completed = models.BooleanField(default=False)
+    playlist = models.ForeignKey(
+        Playlist,
+        on_delete=models.PROTECT,
+        help_text=_('Playlist de músicas que o usuário está ouvindo'),
+    )
+    date = models.DateField(
+        _('Criada em'),
+        auto_now_add=True,
+        help_text=_('Data que a checklist foi criada'),
+    )
+    listened_musics = models.ManyToManyField(
+        Music,
+        blank=True,
+        verbose_name=_('Músicas escutadas'),
+        help_text=_(
+            'Músicas que o úsuario ouviu desta playlist, desde a criação da checklist'
+        ),
+    )
+    completed = models.BooleanField(
+        _('Checklist completa'),
+        default=False,
+        help_text=_(
+            'Se o campo estiver marcado, o usuário ouviu todas as músicas desta playlist e completou esta checklist'
+        ),
+    )
     time_elapsed = models.IntegerField(default=0)
-    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='checklists')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name='checklists',
+        verbose_name=_('Usuário'),
+    )
 
     def __str__(self):
         return f"Checklist de {self.user.full_name} da {self.playlist.name}"
