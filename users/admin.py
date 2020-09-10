@@ -5,7 +5,7 @@ from base.models import Checklist
 
 class ChecklistInline(admin.TabularInline):
     model = Checklist
-    readonly_fields = ('playlist', 'date', 'display_music_count', 'completed')
+    readonly_fields = ('playlist', 'display_music_count', 'completed')
     exclude = ('time_elapsed', 'listened_musics')
     show_change_link = True
     can_delete = False

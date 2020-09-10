@@ -41,3 +41,13 @@ const allowMusic = (musicOrder) => {
     const cardMusic = document.querySelector(`#card-music-${musicOrder + 1}`)
     cardMusic.classList.remove('card-music-block')
 }
+
+/*function setLastTime() {
+    var currentTime = Math.round(m1.currentTime)
+    if (currentTime == Math.round(lastTime) || currentTime == (Math.round(lastTime) + 1)) {
+        lastTime = m1.currentTime
+    } else
+        m1.currentTime = lastTime
+}
+
+m1.ontimeupdate = function () { setLastTime() }*/
