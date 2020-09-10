@@ -108,7 +108,7 @@ class Checklist(models.Model):
         return f"Checklist de {self.user.full_name} da {self.playlist.name}"
 
     def display_music_count(self):
-        return self.musics.count()
+        return self.listened_musics.count()
 
     display_music_count.short_description = _('Quantidade de músicas ouvidas')
 
