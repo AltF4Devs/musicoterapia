@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static, settings
-from django.contrib.auth.views import LogoutView
 
-from users.views import LoginView, RegisterView
+from users.views import LoginView, LogoutView, RegisterView
 from django.views.generic import TemplateView
 from base.views import IndexView, FormView, CompletedFormView
 
