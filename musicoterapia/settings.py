@@ -16,7 +16,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True if not PRODUCTION else False
 
 if PRODUCTION:
-    ALLOWED_HOSTS = ['200.129.173.207', 'localhost']
+    ALLOWED_HOSTS = ['200.129.173.207', 'localhost', 'musicamtc.ufac.br']
 else:
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
@@ -84,7 +84,6 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = '/'
 
 LANGUAGE_CODE = 'pt-br'
 
