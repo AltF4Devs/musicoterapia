@@ -59,8 +59,10 @@ class Music(models.Model):
     def get_order(self):
         return "%02d" % self.order
 
+    '''
     def get_formatted_duration(self):
         return "%02d:%02d" % (int(self.duration) / 60, self.duration % 60)
+    '''
 
 
 class Checklist(models.Model):
