@@ -45,7 +45,6 @@ class Music(models.Model):
     compositor = models.CharField(_('Compositor'), max_length=255)
     performer = models.CharField(_('Intérprete'), max_length=255)
     file = models.FileField(upload_to=path_music, validators=[validator_music])
-    duration = models.IntegerField(_('Duração'), default=0)
     order = models.IntegerField(_('Ordem de Reprodução'))
 
     class Meta:
