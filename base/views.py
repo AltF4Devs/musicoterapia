@@ -35,7 +35,7 @@ class IndexView(LoginRequiredMixin, View):
             # Checa se é a primeira vez que o usuário acessa a fase de músicas
             if user.is_first_access:
                 try:
-                    playlist = Playlist.objects.get(id=1)
+                    playlist = Playlist.objects.get(order=1)
                     Checklist.objects.create(playlist=playlist, user=user)
                     musics = playlist.musics.all()
 
@@ -64,9 +64,9 @@ class IndexView(LoginRequiredMixin, View):
 
                 # Cria uma nova checklist com a proxima playlist da fila
                 total_playlists = Playlist.objects.all().count()
-                prox_playlist = (checklist.playlist.id % total_playlists) + 1
+                prox_playlist = (checklist.playlist.order % total_playlists) + 1
                 try:
-                    playlist = Playlist.objects.get(id=prox_playlist)
+                    playlist = Playlist.objects.get(order=prox_playlist)
                     Checklist.objects.create(playlist=playlist, user=user)
                     musics = playlist.musics.all()
 
