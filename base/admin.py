@@ -5,7 +5,7 @@ from .models import Checklist, Playlist, Music, Form
 class ChecklistAdmin(admin.ModelAdmin):
     readonly_fields = ('listened_musics', 'completed')
     list_display = ('user', 'playlist', 'date', 'display_music_count', 'completed')
-    list_filter = ('user', 'completed', 'playlist')
+    list_filter = ('completed', 'playlist', 'user')
 
 
 class MusicsInline(admin.StackedInline):
