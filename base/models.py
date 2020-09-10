@@ -9,9 +9,10 @@ User = get_user_model()
 
 class Playlist(models.Model):
     name = models.CharField(_('Nome'), max_length=255)
+    order = models.IntegerField(_('Ordem de Reprodução'))
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['order']
         verbose_name = _('Playlist')
         verbose_name_plural = _('Playlists')
 
