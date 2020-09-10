@@ -99,13 +99,18 @@ class Checklist(models.Model):
         verbose_name=_('Usuário'),
     )
 
-    def __str__(self):
-        return f"Checklist de {self.user.full_name} da {self.playlist.name}"
-
     class Meta:
         ordering = ['-date']
         verbose_name = _('Checklist')
         verbose_name_plural = _('Checklists')
+
+    def __str__(self):
+        return f"Checklist de {self.user.full_name} da {self.playlist.name}"
+
+    def display_music_count(self):
+        return self.musics.count()
+
+    display_music_count.short_description = _('Quantidade de músicas ouvidas')
 
 
 class Form(models.Model):
