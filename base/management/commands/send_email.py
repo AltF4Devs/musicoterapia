@@ -9,20 +9,18 @@ from base.models import Form
 
 class Command(BaseCommand):
     help = 'Send email to users'
+    template_email_music = 'email/form_email_music.html'
+    template_email_wait = 'email/form_email_wait.html'
+    template_admin = 'email/form_admin_email.html'
 
     def send_user_email(self, user, form):
+        template = self.template_email_music if user.phase_music() else self.template_email_wait
         subject, from_email = 'Lembrete de formulário', 'musicoterapiacovid@gmail.com'
 
-        html_msg = render_to_string(
-            'email/form_email.html', {'user': user, 'form': form}
-        )
-        text_msg = render_to_string(
-            'email/form_email.txt', {'user': user, 'form': form}
-        )
+        html_msg = render_to_string(template, {'user': user, 'form': form})
 
         msg = EmailMultiAlternatives(subject, html_msg, from_email, [user.email])
         msg.content_subtype = "html"
-        # msg.attach_alternative(text_msg, "text/plain")
         self.stdout.write(
             self.style.SUCCESS(
                 'Sending email to user "%s (%s)" ...' % (user.full_name, user.id)
@@ -33,12 +31,10 @@ class Command(BaseCommand):
     def send_admin_email(self, user):
         subject, from_email = 'Formulário Usuário', 'musicoterapiacovid@gmail.com'
 
-        html_msg = render_to_string('email/form_admin_email.html', {'user': user})
-        text_msg = render_to_string('email/form_admin_email.txt', {'user': user})
+        html_msg = render_to_string(self.template_admin, {'user': user})
 
         msg = EmailMultiAlternatives(subject, html_msg, from_email, [from_email])
         msg.content_subtype = "html"
-        # msg.attach_alternative(text_msg, "text/plain")
         msg.send()
 
     def handle(self, *args, **kwargs):

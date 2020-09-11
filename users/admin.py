@@ -15,11 +15,18 @@ class ChecklistInline(admin.TabularInline):
 class UserAdmin(admin.ModelAdmin):
     inlines = [ChecklistInline]
 
-    list_display = ('email', 'full_name', 'music_group', 'week', 'complete_treatment')
+    list_display = (
+        'email',
+        'full_name',
+        'phone',
+        'music_group',
+        'week',
+        'complete_treatment',
+    )
     list_filter = ('complete_treatment', 'music_group', 'week')
 
     fieldsets = (
-        (None, {'fields': ('email', 'full_name', 'date_joined', 'is_active')}),
+        (None, {'fields': ('email', 'full_name', 'phone', 'date_joined', 'is_active')}),
         (
             'Pesquisa',
             {'fields': ('music_group', 'week', 'next_form', 'complete_treatment')},

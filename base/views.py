@@ -18,12 +18,6 @@ class IndexView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
         user = request.user
-        phase_music = (
-            user.week == 1
-            and user.music_group == 1
-            or user.week == 2
-            and user.music_group == 2
-        )
 
         if user.complete_treatment:
             return render(request, self.template_treatment)
@@ -31,7 +25,7 @@ class IndexView(LoginRequiredMixin, View):
         if user.form_allow():
             return redirect('form')
 
-        if phase_music:
+        if user.phase_music():
             # Checa se é a primeira vez que o usuário acessa a fase de músicas
             if user.is_first_access:
                 try:

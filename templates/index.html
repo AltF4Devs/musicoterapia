@@ -12,8 +12,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px 5px;
+        padding: 15px 5px 20px 5px;
         flex-direction: column;
+        color: black;
     }
 
     .col-card
@@ -80,6 +81,7 @@
         <div class="d-flex flex-column align-items-center">
             <div class="col-sm-12 col-md-9 col-lg-7 mt-4">
                 <div class="row row-card">
+                    {{ playlist.name }}
                     {% for music in listened_musics %}
                         {% include "card_music.html" with blocked="card-music-block" %}
                     {% endfor %}

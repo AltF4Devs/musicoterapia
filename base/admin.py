@@ -28,6 +28,6 @@ admin.site.register(Checklist, ChecklistAdmin)
 admin.site.register(Playlist, PlaylistAdmin)
 admin.site.register(Music, MusicAdmin)
 admin.site.register(Form)
-admin.site.site_header = "MusicaMCT"
+admin.site.site_header = "MusicaMTC"
 admin.site.index_title = "Gerenciamento"
 admin.site.site_title = admin.site.site_header + " - Painel"

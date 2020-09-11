@@ -7,8 +7,11 @@
         </div>
         <div class="col-11 col-sm-7" style="display: flex; align-items: center;">
             <audio 
+                id="music-{{ music.order }}"
                 controls controlsList="nodownload" 
-                onended="musicEndedEvent({{ music.id }}, {{ music.order }})"
+                onended="musicEndedEvent(this, {{ music.id }}, {{ music.order }})"
+                ontimeupdate="setLastTime(this)"
+                onplaying="setPlay()"
             >
                 <source src="{{ music.file.url }}" type="audio/mp3" />
                 Seu navegador não suporta HTML5

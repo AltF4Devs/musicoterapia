@@ -36,7 +36,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'email', 'password1', 'password2')
+        fields = ('full_name', 'email', 'phone', 'password1', 'password2')
         widgets = {
             'email': forms.EmailInput(
                 attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}
@@ -45,6 +45,13 @@ class UserForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control form-control-lg',
                     'placeholder': 'Nome completo',
+                }
+            ),
+            'phone': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-lg',
+                    'placeholder': 'Número de celular',
+                    'data-mask': '(00) 00000-0000',
                 }
             ),
         }
