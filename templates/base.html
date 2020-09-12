@@ -11,12 +11,19 @@
         <link href="{% static 'css/custom.css' %}" rel="stylesheet">
         {% block head %}
         {% endblock head %}
+        <style>
+            #logo-ufac
+            {
+                max-width: 5%;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-light" style="height: 13vh;">
-            <a class="navbar-brand">
-                <img src="{% static 'images/ufac_logo.svg' %}" />
-                <label style="font-size: 24; font-weight: 500; margin-left: 19px; color: #FFF">Universidade Federal do Acre</label>
+            <a class="navbar-brand w-100" style="display: flex; justify-content: space-between; align-items: center; margin-right: 0px;">
+                <img id="logo-ufac" src="{% static 'images/ufac_logo.svg' %}" />
+                <label style="font-weight: 500; margin-left: 0px; color: #FFF; margin-bottom: 0px;">Universidade Federal do Acre</label>
+                <img style="max-width: 5%; float: right" src="{% static 'images/musicoterapia_logo.png' %}" />
             </a>
         </nav>
         {% block body %}
