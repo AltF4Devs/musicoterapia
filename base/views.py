@@ -148,7 +148,7 @@ class CompletedFormView(LoginRequiredMixin, View):
             return redirect('dashboard')
 
         if user.week == 1:
-            user.next_form = timezone.now().date() + timezone.timedelta(days=8)
+            user.next_form = timezone.now().date() + timezone.timedelta(days=7)
             user.week = 2
             user.save()
             return render(request, self.template_form)
