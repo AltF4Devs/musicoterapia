@@ -61,10 +61,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         # ou caso ja tenha passado um dia
         checklist = self.checklists.filter(date=self.next_form).first()
         complete_last_check = True if checklist and checklist.completed else False
+        form_phase_wait = not self.phase_music() and (
+            self.next_form == datetime.now().date()
+        )
         form_allow = datetime.now().date() >= (
             self.next_form + timezone.timedelta(days=1)
         )
-        return complete_last_check or form_allow
+        return complete_last_check or form_phase_wait or form_allow
 
     def phase_music(self):
         return (
