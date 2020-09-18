@@ -57,7 +57,7 @@
         </button>
     </div>
 
-    {% if status == 'new' %}
+    <!--{% if status == 'new' %}
         <p class="header" style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
             {{ user.full_name }}, para <strong style="color: #00D167">melhor análise</strong>
             da pesquisa escute <strong style="color: #00D167">completamente</strong> 
@@ -68,12 +68,21 @@
             {{ user.full_name }}, você <strong style="color: #00D167">não completou</strong>
             a sua última <strong style="color: #00D167">playlist.</strong> 
             Por favor, complete-a o quanto antes para poder prosseguir com a pesquisa.
-        </p>
-    {% elif status == 'completed'%}
+        </p> 
+    {% endif %}-->
+    {% if status == 'completed'%}
         <p class="header" style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
             Parabéns {{ user.full_name }}, você <strong style="color: #00D167">completou</strong>
             a sua <strong style="color: #00D167">playlist </strong>de hoje.
             Volte amanhã para poder ouvir a sua próxima playlist e continuar com a pesquisa.
+        </p>
+    {% else %}
+        <p class="header" style="font-size: 1.3rem; text-align: center; font-weight: 300; margin: 30px 0px;">
+            {{ user.full_name }}, você está iniciando a primeira fase da pesquisa. Durante 7 dias você irá ter acesso a uma seleção de musicas, 
+            em torno de 13 a 14 músicas por dia, que deverão ser escutadas por completo em cada dia, preferencialmente todas 
+            de uma só vez. Caso você precise parar por algum motivo, poderá voltar e reiniciar de onde parou. Preparamos 3 
+            seleções de músicas diferentes para você escutar, uma por dia. No sétimo dia haverá um novo questionário para 
+            você responder, que irá aparecer assim que você escutar a última música.
         </p>
     {% endif %}
 
