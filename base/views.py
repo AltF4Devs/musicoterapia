@@ -13,7 +13,7 @@ from base.models import Checklist, Playlist, Form
 class IndexView(LoginRequiredMixin, View):
     template_music = "index.html"  # Template com as musicas
     template_wait = "wait.html"  # Template avisando que não terá músicas nesta fase
-    template_treatment = "complete_treatment.html"
+    template_treatment = "completed_treatment.html"
 
     def get(self, request, *args, **kwargs):
         # Checa se o usuário está na fase de músicas
